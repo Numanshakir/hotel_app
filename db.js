@@ -6,10 +6,7 @@ require('dotenv').config();
 const mongoUrl=process.env.onlineDBUrl;
 
 
-mongoose.connect(mongoUrl, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-});
+mongoose.connect(mongoUrl,);
 //Mongoose connection event
 //When the connection is successfully established 
 const db = mongoose.connection;
