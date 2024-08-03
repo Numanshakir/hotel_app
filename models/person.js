@@ -34,7 +34,17 @@ const personSchema = new mongoose.Schema({
     salary: {
         type: Number,
         required: false
-    }
+    },
+    username:{
+        type: String,
+        required: true,
+        unique:true
+    },
+
+    password: {
+        type: String,
+        required: true
+    },
 });
 //person model
 const Person = mongoose.model('Person', personSchema);
