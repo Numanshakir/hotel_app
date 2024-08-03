@@ -39,7 +39,7 @@ app.get('/', function(req, res){
 //Calling person routes
 
 const personRouter =require('./routes/personroutes');
-app.use('/person',localAuthMiddleware,personRouter);
+app.use('/person',personRouter);
 
 //Calling menu routes
 const menuRouter =require('./routes/menuRoutes');

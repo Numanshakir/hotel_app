@@ -12,7 +12,7 @@ passport.use(new LocalStrategy(async(username, password, done) => {
         if(!person){
             return done(null,false,{"message":"User not found"});
         }
-        if(person.password != password){
+        if(person.comparePassword(password)===false){
             return done(null,false,{"message":"Password incorrect"});
         }
         return done(null,person,{"message":"Login successful"});
