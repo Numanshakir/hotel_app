@@ -4,6 +4,49 @@ const router=express.Router();
 var Person=require('./../models/person.js');
  const {jwtAuthMiddleware, generateToken} = require('../jwt');
  
+/**
+ * @swagger
+ * tags:
+ *   name: Person
+ *   description: API for managing persons
+ */
+
+/**
+ * @swagger
+ * /signup:
+ *   post:
+ *     tags: [Person]
+ *     summary: Create a new user
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *               work:
+ *                 type: string
+ *     responses:
+ *       '200':
+ *         description: Person added successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   $ref: '#/components/schemas/Person'
+ *                 token:
+ *                   type: string
+ *       '500':
+ *         description: Internal server error
+ */
  ///Create User
 router.post('/signup', async(req, res)=>{ 
    
@@ -36,6 +79,43 @@ res.status(500).json("Inernal server error");
     }
 });
 
+
+/**
+ * @swagger
+ * /login:
+ *   post:
+ *     tags: [Person]
+ *     summary: Log in a user
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       '200':
+ *         description: Login successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   $ref: '#/components/schemas/Person'
+ *                 token:
+ *                   type: string
+ *       '401':
+ *         description: Invalid username or password
+ *       '500':
+ *         description: Internal server error
+ */
 //Login User
 router.post('/login', async(req, res)=>{ 
    
@@ -75,6 +155,31 @@ router.post('/login', async(req, res)=>{
 
 
  
+/**
+ * @swagger
+ * /:
+ *   get:
+ *     tags: [Person]
+ *     summary: Get all persons
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       '200':
+ *         description: Person get successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Person'
+ *       '500':
+ *         description: Internal server error
+ */
 
 router.get('/',jwtAuthMiddleware, async(req, res)=>{   
 
@@ -91,6 +196,31 @@ router.get('/',jwtAuthMiddleware, async(req, res)=>{
 res.status(500).json("Inernal server error");
     }
 });
+
+
+/**
+ * @swagger
+ * /profile:
+ *   get:
+ *     tags: [Person]
+ *     summary: Get the profile of the logged-in user
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       '200':
+ *         description: User get successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   $ref: '#/components/schemas/Person'
+ *       '500':
+ *         description: Internal server error
+ */
 
 
 router.get('/profile',jwtAuthMiddleware, async(req, res)=>{   
@@ -111,6 +241,38 @@ res.status(500).json("Inernal server error");
 
 
 
+/**
+ * @swagger
+ * /{workType}:
+ *   get:
+ *     tags: [Person]
+ *     summary: Get persons by work type
+ *     parameters:
+ *       - name: workType
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *           enum: [Chef, Waiter, Driver, Cleaner]
+ *     responses:
+ *       '200':
+ *         description: Person get successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Person'
+ *       '404':
+ *         description: Work type not found
+ *       '500':
+ *         description: Internal server error
+ */
 
 router.get('/:workType', async(req, res)=>{   
  
@@ -133,6 +295,49 @@ console.log(workType);
 res.status(500).json("Inernal server error");
     }
 });
+
+/**
+ * @swagger
+ * /{id}:
+ *   put:
+ *     tags: [Person]
+ *     summary: Update a person by ID
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *               work:
+ *                 type: string
+ *     responses:
+ *       '200':
+ *         description: Person updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   $ref: '#/components/schemas/Person'
+ *       '404':
+ *         description: Person not found
+ *       '500':
+ *         description: Internal server error
+ */
 
 router.put('/:id', async(req, res)=>{   
         console.log("update person route"); 
@@ -157,6 +362,28 @@ router.put('/:id', async(req, res)=>{
 res.status(500).json("Inernal server error");
     }
 });
+
+/**
+ * @swagger
+ * /{id}:
+ *   delete:
+ *     tags: [Person]
+ *     summary: Delete a person by ID
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: The ID of the person to delete
+ *         schema:
+ *           type: string
+ *     responses:
+ *       '200':
+ *         description: Person deleted successfully
+ *       '404':
+ *         description: Person not found
+ *       '500':
+ *         description: Internal server error
+ */
 
 router.delete('/:id', async(req, res)=>{  
     console.log("delete person route"); 

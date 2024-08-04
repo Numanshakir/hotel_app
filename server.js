@@ -1,6 +1,8 @@
 var express= require('express');
 var db= require('./db');
 var app = express();
+///Call Swagger
+
 //Call the dotenv file
 require('dotenv').config();
 
@@ -28,6 +30,22 @@ app.use(logRequest);
     // app.use(passport.initialize());
     /// Local Authentication
 // var localAuthMiddleware = passport.authenticate('local',{session:false  })
+
+
+////Swagger
+
+
+const {swaggerUi,
+    swaggerDocs
+    
+}= require('./swagger.js');
+app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+//
+
+
+
+
+
 
 ///Routes 
 app.get('/', function(req, res){
