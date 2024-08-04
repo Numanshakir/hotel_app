@@ -13,7 +13,7 @@ var Person=require('./../models/person.js');
 
 /**
  * @swagger
- * /signup:
+ * /person/signup:
  *   post:
  *     tags: [Person]
  *     summary: Create a new user
@@ -82,7 +82,7 @@ res.status(500).json("Inernal server error");
 
 /**
  * @swagger
- * /login:
+ * /person/login:
  *   post:
  *     tags: [Person]
  *     summary: Log in a user
@@ -157,7 +157,7 @@ router.post('/login', async(req, res)=>{
  
 /**
  * @swagger
- * /:
+ * /person/:
  *   get:
  *     tags: [Person]
  *     summary: Get all persons
@@ -200,7 +200,7 @@ res.status(500).json("Inernal server error");
 
 /**
  * @swagger
- * /profile:
+ * /person/profile:
  *   get:
  *     tags: [Person]
  *     summary: Get the profile of the logged-in user
@@ -243,7 +243,7 @@ res.status(500).json("Inernal server error");
 
 /**
  * @swagger
- * /{workType}:
+ * /person/{workType}:
  *   get:
  *     tags: [Person]
  *     summary: Get persons by work type
@@ -298,7 +298,7 @@ res.status(500).json("Inernal server error");
 
 /**
  * @swagger
- * /{id}:
+ * /person/{id}:
  *   put:
  *     tags: [Person]
  *     summary: Update a person by ID
@@ -365,7 +365,7 @@ res.status(500).json("Inernal server error");
 
 /**
  * @swagger
- * /{id}:
+ * /person/{id}:
  *   delete:
  *     tags: [Person]
  *     summary: Delete a person by ID

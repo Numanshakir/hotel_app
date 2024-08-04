@@ -11,7 +11,7 @@ var Menu=require('./../models/menuItem.js');
 
 /**
  * @swagger
- * /:
+ * /menuItem/:
  *   post:
  *     tags: [Menu]
  *     summary: Add a new menu item
@@ -66,7 +66,7 @@ res.status(500).json("Inernal server error");
 
 /**
  * @swagger
- * /:
+ * /menuItem/:
  *   get:
  *     tags: [Menu]
  *     summary: Get all menu items
@@ -105,7 +105,7 @@ res.status(500).json("Inernal server error");
 
 /**
  * @swagger
- * /{taste}:
+ * /menuItem/{taste}:
  *   get:
  *     tags: [Menu]
  *     summary: Get menu items by taste
@@ -150,7 +150,7 @@ res.status(500).json("Inernal server error");
 
 /**
  * @swagger
- * /{id}:
+ * /menuItem/{id}:
  *   put:
  *     tags: [Menu]
  *     summary: Update a menu item by ID
@@ -208,7 +208,7 @@ res.status(500).json("Inernal server error");
 });
 /**
  * @swagger
- * /{id}:
+ * /menuItem/{id}:
  *   delete:
  *     tags: [Menu]
  *     summary: Delete a menu item by ID
