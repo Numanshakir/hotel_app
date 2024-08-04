@@ -2,18 +2,31 @@
 const express= require("express");
 const router=express.Router();
 var Person=require('./../models/person.js');
-
-router.post('/', async(req, res)=>{ 
+ const {jwtAuthMiddleware, generateToken} = require('../jwt');
+ 
+ ///Create User
+router.post('/signup', async(req, res)=>{ 
    
     try{
         var data = req.body;
     var person = new Person(data);
 var response =   await person.save();
 console.log(response);
+const payload = {
+    id: response.id,
+    username: response .username
+
+}
+const token = generateToken(payload);
+console.log("token is ="+token);
+
+
+
    res.status(200).json({
        message: "Person added successfully",
-       data: response
-   });
+       data: response,
+       token:token
+   }); 
 
 
 
@@ -23,14 +36,71 @@ res.status(500).json("Inernal server error");
     }
 });
 
+//Login User
+router.post('/login', async(req, res)=>{ 
+   
+    try{
+        const {username,password}=req.body;
+        const user =await Person.findOne({username:username});
 
-router.get('/', async(req, res)=>{   
+        if(!user || user.comparePassword(password)===false){
+            return res.status(401).json({
+                message: "Invalid username or password",
+            }); 
+        }
+     
+        const payload = {
+            id: user.id,
+            username: user .username
+        }
+        const token = generateToken(payload);
+
+        res.status(200).json({
+            message: "Login successful",
+            data: user,
+            token:token
+        });
+ 
+
+    }catch(err){
+        console.log(err.message);
+        res.status(500).json(
+{
+                message:"Internal server error"
+}
+        );
+    }
+});  
+
+
+
+ 
+
+router.get('/',jwtAuthMiddleware, async(req, res)=>{   
+
   
 
     try{    
         var response =   await Person.find({});       
         res.status(200).json({
             message: "Person get successfully",
+            data: response
+        });     
+    }catch(err){
+        console.log(err.message);
+res.status(500).json("Inernal server error");
+    }
+});
+
+
+router.get('/profile',jwtAuthMiddleware, async(req, res)=>{   
+
+  const user=req.user;
+
+    try{    
+        var response =   await Person.findById(user.id);       
+        res.status(200).json({
+            message: "User get successfully",
             data: response
         });     
     }catch(err){

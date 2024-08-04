@@ -4,7 +4,7 @@ var app = express();
 //Call the dotenv file
 require('dotenv').config();
 
-const passport =require("./auth.js");
+// const passport =require("./auth.js");
 
 
 
@@ -25,8 +25,9 @@ app.use(logRequest);
 
 
 
-    app.use(passport.initialize());
-var localAuthMiddleware = passport.authenticate('local',{session:false  })
+    // app.use(passport.initialize());
+    /// Local Authentication
+// var localAuthMiddleware = passport.authenticate('local',{session:false  })
 
 ///Routes 
 app.get('/', function(req, res){
