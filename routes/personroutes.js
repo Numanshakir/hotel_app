@@ -30,6 +30,7 @@ var Person=require('./../models/person.js');
  *                 type: string
  *               work:
  *                 type: string
+ * 
  *     responses:
  *       '200':
  *         description: Person added successfully
@@ -321,6 +322,19 @@ res.status(500).json("Inernal server error");
  *                 type: string
  *               work:
  *                 type: string
+ *               name:
+ *                 type: number
+ *               age:
+ *                 type: string
+ *               mobile:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               address:
+ *                 type: string
+ *               salary:
+ *                 type: number
+ * 
  *     responses:
  *       '200':
  *         description: Person updated successfully
